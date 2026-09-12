@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELA Conecta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #E91E63;
+            --primary-light: #FCE4EC;
+            --dark: #2d3436;
+            --light: #ffffff;
+            --gray: #636e72;
+            --bg-color: #f5f6fa;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--bg-color); 
+            padding: 20px; 
+            color: var(--dark); 
+            line-height: 1.6;
+        }
+
+        .book-container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: var(--light); 
+            border-radius: 16px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+        }
+
+        .header { 
+            background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3a 100%); 
+            color: var(--light); 
+            text-align: center; 
+            padding: 40px 20px 30px 20px; 
+            position: relative;
+        }
+
+        .header h1 { 
+            margin: 0; 
+            font-size: 32px; 
+            font-weight: 800;
+            letter-spacing: 1px; 
+        }
+
+        .header p.subtitle { 
+            margin: 10px 0 0 0; 
+            color: #dcdde1; 
+            font-size: 16px;
+        }
+
+        /* Estilo para la sección de integrantes */
+        .team-members {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 14px;
+            color: #b2bec3;
+            line-height: 1.8;
+        }
+
+        .team-members span {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        .team-members strong {
+            color: var(--light);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .nav-tabs { 
+            display: flex; 
+            background: #f8f9fa; 
+            border-bottom: 2px solid #eeeeee; 
+            flex-wrap: wrap; 
+        }
+
+        .tab { 
+            flex: 1; 
+            text-align: center; 
+            padding: 18px 10px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            color: var(--gray); 
+            transition: all 0.3s ease; 
+            min-width: 130px;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab:hover { 
+            color: var(--primary); 
+            background-color: var(--primary-light);
+        }
+
+        .tab.active { 
+            background: var(--light); 
+            color: var(--primary); 
+            border-bottom: 3px solid var(--primary); 
+        }
+
+        .content-section { 
+            padding: 40px; 
+            display: none; 
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        .content-section.active { 
+            display: block; 
+        }
+
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        .section-title {
+            color: var(--dark);
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            border-left: 5px solid var(--primary);
+            padding-left: 15px;
+        }
+
+        .accordion-item {
+            border: 1px solid #eeeeee;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header {
+            background-color: #ffffff;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: var(--primary-light);
+        }
+
+        .accordion-header .icon {
+            font-size: 24px;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active .icon {
+            transform: rotate(45deg);
+        }
+
+        .accordion-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            background-color: #fafbfc;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .accordion-content.show {
+            padding: 20px;
+            max-height: 500px;
+            border-top: 1px solid #eeeeee;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .quiz-question { 
+            background: #ffffff; 
+            padding: 25px; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary); 
+        }
+
+        .quiz-question p {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 0;
+        }
+
+        .quiz-btn { 
+            display: block; 
+            width: 100%; 
+            text-align: left; 
+            background: #f8f9fa; 
+            border: 2px solid #eeeeee; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            font-size: 16px;
+            font-family: inherit;
+            color: var(--dark);
+        }
+
+        .quiz-btn:hover:not(:disabled) { 
+            border-color: var(--primary); 
+            background-color: var(--primary-light); 
+        }
+
+        .quiz-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <div class="header">
+            <h1>ELA Conecta</h1>
+            <p class="subtitle">De la estrategia a la acción: Diseño de la mezcla de mercadeo integral y CRM</p>
+            
+            <div class="team-members">
+                <strong>Integrantes</strong>
+                <span>Lina Fernanda Suba Mora</span> | 
+                <span>Ingrid Patricia Ortega Patiño</span> | 
+                <span>Erika Cabrera Gaspar</span>
+            </div>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="tab active" onclick="showTab(event, 'tab1')">1. Mix (4P)</div>
+            <div class="tab" onclick="showTab(event, 'tab2')">2. Servicios (3P)</div>
+            <div class="tab" onclick="showTab(event, 'tab3')">3. CRM</div>
+            <div class="tab" onclick="showTab(event, 'tab4')">🎮 Reto</div>
+        </div>
+
+        <!-- PESTAÑA 1: MIX TRADICIONAL -->
+        <div id="tab1" class="content-section active">
+            <h2 class="section-title">El Manual del Mix Tradicional (4P)</h2>
+            <p>Haz clic en cada variable para descubrir la táctica de ELA diseñada para el consumidor moderno.</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>🛍️ 1. Producto (Product)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <span class="tag">Versatilidad Real</span>
+                    <p><strong>Estrategia:</strong> Desarrollo de cápsulas de prendas combinables, versátiles y adaptables a diferentes ocasiones.</p>
+                    <p><strong>Justificación:</strong> Responde al consumidor informado que compara y busca mayor utilidad. El empaque juega un rol crucial: protege, incluye códigos QR para brindar opciones de cuidado/combinación y reduce el impacto ambiental.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>💲 2. Precio (Price)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <span class="tag">Valor Percibido</span>
+                    <p><strong>Estrategia:</strong> Fijación basada en el valor percibido y precios competitivos, manteniendo total coherencia entre la tienda física y digital.</p>
+                    <p><strong>Justificación:</strong> El segmento es sensible al precio, pero evalúa todo el paquete: diseño, calidad, utilidad y conveniencia, en lugar de buscar solo el artículo más barato.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📍 3. Plaza (Placement)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <span class="tag">Omnicanalidad</span>
+                    <p><strong>Estrategia:</strong> Modelo omnicanal integrado que une tiendas físicas, web, redes sociales, reserva online y opciones de recogida/cambios sin importar el canal de origen.</p>
+                    <p><strong>Justificación:</strong> El consumidor investiga en un lado y compra en otro. Integrar todos los canales reduce las fricciones y facilita enormemente el proceso de compra.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>📣 4. Promoción (Promotion)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <span class="tag">Comunicación Práctica</span>
+                    <p><strong>Estrategia:</strong> Campaña digital “ELA Conecta” y videos estilo “Un look, tres ocasiones”, apoyados por microcreadores y promociones personalizadas.</p>
+                    <p><strong>Justificación:</strong> Muestra de forma práctica la versatilidad de la ropa, conectando con mujeres urbanas, digitales y orientadas al valor inteligente.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA 2: 3P ADICIONALES -->
+        <div id="tab2" class="content-section">
+            <h2 class="section-title">Servicios y Experiencia (3P)</h2>
+            <p>Ampliando la propuesta de valor para garantizar experiencias memorables.</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>🤝 5. Personas (People)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>Protocolo ELA Conecta:</strong> El personal no solo vende, actúa como un <span class="highlight">asesor de experiencia y estilo</span>.</p>
+                    <p>Se enfocan en identificar la necesidad (ocasión o estilo) y ofrecen integración omnicanal si la prenda deseada no está en la tienda física, guiando la compra web o reserva.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>⚙️ 6. Procesos (Process)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>Mapa de interacción:</strong> Es vital garantizar consistencia durante todo el viaje del cliente. Esto abarca:</p>
+                    <ul>
+                        <li>Descubrimiento en redes.</li>
+                        <li>Comparación de opciones.</li>
+                        <li>Decisión de canal (físico o digital).</li>
+                        <li>Compra sin fricciones y postventa eficiente.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>🌟 7. Posicionamiento (Positioning)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p><strong>Lugar en la mente del cliente:</strong> ELA se posiciona como una marca de moda femenina <span class="highlight">cercana, moderna y versátil</span>.</p>
+                    <p>La meta es ser vista como la solución que facilita la vida mediante prendas combinables y una experiencia de compra unificada.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA 3: CRM Y FIDELIZACIÓN -->
+        <div id="tab3" class="content-section">
+            <h2 class="section-title">Fidelización y Estrategia CRM</h2>
+            <p>Transformando compras individuales en relaciones a largo plazo.</p>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>💻 Gestión de Datos (CRM)</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Utilizar un sistema de Gestión de Relaciones con el Cliente para registrar el historial de compras, tallas frecuentes, canales favoritos y respuesta a promociones.</p>
+                    <p>Esto permite enviar comunicaciones altamente precisas, mejorando indicadores como la recompra a 90 días.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <span>❤️ Programa: ELA Conecta Contigo</span>
+                    <span class="icon">+</span>
+                </div>
+                <div class="accordion-content">
+                    <ul>
+                        <li><strong>Táctica 1 (Recompra):</strong> Acceso anticipado a colecciones o invitaciones a eventos por compras frecuentes.</li>
+                        <li><strong>Táctica 2 (Personalización):</strong> Sugerir piezas complementarias a compras previas (Ej: <em>"Ya tienes esta chaqueta, combínala así..."</em>).</li>
+                        <li><strong>Táctica 3 (Postventa):</strong> Contacto breve para confirmar satisfacción y agilizar posibles cambios.</li>
+                        <li><strong>Táctica 4 (Recuperación):</strong> Mensajes exclusivos y promociones para clientes que llevan tiempo sin comprar.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PESTAÑA 4: RETO DIDÁCTICO -->
+        <div id="tab4" class="content-section">
+            <h2 class="section-title">🎮 Reto de Conocimiento</h2>
+            <p>Pon a prueba lo que has aprendido sobre la estrategia ELA Conecta.</p>
+
+            <div class="quiz-question">
+                <p>1. Según la estrategia de Producto, ¿cuál es el enfoque principal de ELA?</p>
+                <button class="quiz-btn" onclick="checkAns(this, false)">A) Importar la ropa más económica de mercados internacionales.</button>
+                <button class="quiz-btn" onclick="checkAns(this, true)">B) Crear cápsulas de prendas combinables y versátiles para diversas ocasiones.</button>
+            </div>
+
+            <div class="quiz-question">
+                <p>2. En la variable de Promoción, ¿cuál es una de las campañas clave propuestas?</p>
+                <button class="quiz-btn" onclick="checkAns(this, true)">A) “Un look, tres ocasiones”</button>
+                <button class="quiz-btn" onclick="checkAns(this, false)">B) "Moda rápida: úsalo hoy, tíralo mañana"</button>
+            </div>
+            
+            <div class="quiz-question">
+                <p>3. ¿Qué acción describe mejor la "Táctica 2" del programa de fidelización CRM?</p>
+                <button class="quiz-btn" onclick="checkAns(this, true)">A) Enviar recomendaciones sobre cómo combinar una prenda previamente comprada.</button>
+                <button class="quiz-btn" onclick="checkAns(this, false)">B) Enviar el mismo boletín masivo semanal a toda la base de datos de clientes.</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(event, tabId) {
+            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            element.classList.toggle('active');
+            content.classList.toggle('show');
+            const icon = element.querySelector('.icon');
+            icon.innerText = element.classList.contains('active') ? '+' : '+'; 
+        }
+
+        function checkAns(btn, isCorrect) {
+            const siblings = btn.parentElement.querySelectorAll('.quiz-btn');
+            siblings.forEach(s => s.disabled = true);
+
+            if(isCorrect) {
+                btn.style.backgroundColor = '#d4edda';
+                btn.style.borderColor = '#c3e6cb';
+                btn.style.color = '#155724';
+                btn.innerHTML += ' <strong>✓ ¡Excelente!</strong>';
+            } else {
+                btn.style.backgroundColor = '#f8d7da';
+                btn.style.borderColor = '#f5c6cb';
+                btn.style.color = '#721c24';
+                btn.innerHTML += ' <strong>✗ Intenta de nuevo la próxima vez</strong>';
+                
+                siblings.forEach(s => {
+                    if(s.getAttribute('onclick').includes('true')) {
+                        s.style.backgroundColor = '#d4edda';
+                        s.style.borderColor = '#c3e6cb';
+                        s.style.color = '#155724';
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
